@@ -327,16 +327,11 @@ function calculateBsGap(prices, x, y) {
     let actualTotal = 0;
     for (let i = 0; i < sorted.length; i += k) {
         const chunk = sorted.slice(i, i + k);
-        if (chunk.length === k) {
-            const paid = chunk.slice(0, x);
-            const free = chunk.slice(x);
-            actualTotal += paid.reduce((s, v) => s + v, 0);
-            groups.push({ items: chunk, paid, free, isFullGroup: true });
-        }
-        else {
-            actualTotal += chunk.reduce((s, v) => s + v, 0);
-            groups.push({ items: chunk, paid: chunk, free: [], isFullGroup: false });
-        }
+        const paidCount = Math.min(chunk.length, x);
+        const paid = chunk.slice(0, paidCount);
+        const free = chunk.slice(paidCount);
+        actualTotal += paid.reduce((s, v) => s + v, 0);
+        groups.push({ items: chunk, paid, free, isFullGroup: chunk.length === k });
     }
     const discount = gross - actualTotal;
     const realDiscountPct = gross > 0 ? (discount / gross) * 100 : 0;
@@ -371,7 +366,7 @@ function render(result) {
     const summary = document.getElementById("summary");
     let lines = "";
     result.groups.forEach((g, idx) => {
-        lines += `<div class="group-label">GROUP ${idx + 1}${g.isFullGroup ? "" : " (leftover — no discount)"}</div>`;
+        lines += `<div class="group-label">GROUP ${idx + 1}${g.isFullGroup ? "" : ` (leftover, size ${g.items.length})`}</div>`;
         g.paid.forEach((p) => {
             lines += `<div class="line"><span>ITEM</span><span>${money(p)}</span></div>`;
         });
