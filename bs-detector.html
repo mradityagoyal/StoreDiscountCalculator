@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The BS Detector — Buy X Get Y Free, Actually Calculated</title>
+<style>
+  :root {
+    --paper: #f5f0e6;
+    --paper-shadow: #e8e0cf;
+    --ink: #2b2622;
+    --ink-faint: #8a8175;
+    --stamp-red: #a3302a;
+    --rule: #cfc6b3;
+    --free-green: #3f6e4f;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #1c1a17;
+    background-image:
+      radial-gradient(ellipse at top, #262320 0%, #1c1a17 60%);
+    font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 16px 96px;
+  }
+
+  .masthead {
+    text-align: center;
+    margin-bottom: 32px;
+    max-width: 560px;
+  }
+
+  .masthead .eyebrow {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    color: #b8ac95;
+    letter-spacing: 0.08em;
+    font-size: 13px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .masthead h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    color: #f2ece0;
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.15;
+    margin: 0 0 12px;
+  }
+
+  .masthead p {
+    color: #a89d87;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .receipt-wrap {
+    width: 100%;
+    max-width: 420px;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+  }
+
+  .receipt {
+    background: var(--paper);
+    position: relative;
+    padding: 28px 26px 8px;
+  }
+
+  .jag-top, .jag-bottom {
+    height: 12px;
+    background:
+      linear-gradient(135deg, var(--paper) 50%, transparent 50%) 0 0,
+      linear-gradient(-135deg, var(--paper) 50%, transparent 50%) 0 0;
+    background-size: 16px 16px;
+    background-repeat: repeat-x;
+  }
+  .jag-bottom { transform: rotate(180deg); }
+
+  .receipt-title {
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 0.12em;
+    font-size: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--rule);
+    margin-bottom: 14px;
+  }
+
+  .receipt-title .sub {
+    display: block;
+    font-weight: normal;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  .field {
+    margin-bottom: 14px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+
+  .field input {
+    width: 100%;
+    background: #fffdf9;
+    border: 1px solid var(--rule);
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  .field input:focus-visible {
+    outline: 2px solid var(--stamp-red);
+    outline-offset: 1px;
+  }
+
+  .xy-row {
+    display: flex;
+    gap: 12px;
+  }
+  .xy-row .field { flex: 1; }
+
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    margin: 18px 0 20px;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    padding: 10px 14px;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+  }
+  button:hover { background: #46403a; }
+  button:focus-visible { outline: 2px solid var(--stamp-red); outline-offset: 2px; }
+
+  #example-btn {
+    background: transparent;
+    color: var(--ink);
+  }
+  #example-btn:hover { background: rgba(0,0,0,0.05); }
+
+  .error {
+    font-size: 12px;
+    color: var(--stamp-red);
+    border: 1px dashed var(--stamp-red);
+    padding: 8px 10px;
+    margin-bottom: 16px;
+  }
+  .hidden { display: none !important; }
+
+  #receipt-body { margin-bottom: 6px; }
+
+  .group-label {
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    margin: 12px 0 4px;
+  }
+
+  .line, .sumline {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 2px 0;
+  }
+
+  .line.free { color: var(--free-green); }
+
+  .summary-block {
+    border-top: 1px dashed var(--rule);
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+  .sumline.dim { color: var(--ink-faint); font-size: 12px; }
+
+  .stamp-zone {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 22px 0 26px;
+  }
+
+  #stamp {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 22px;
+    letter-spacing: 0.03em;
+    color: var(--stamp-red);
+    border: 3px solid var(--stamp-red);
+    padding: 6px 16px;
+    border-radius: 4px;
+    transform: rotate(-6deg);
+    opacity: 0.9;
+    text-transform: uppercase;
+  }
+
+  @keyframes stampIn {
+    0%   { transform: rotate(-6deg) scale(2.4); opacity: 0; }
+    60%  { transform: rotate(-6deg) scale(0.92); opacity: 1; }
+    100% { transform: rotate(-6deg) scale(1); opacity: 0.9; }
+  }
+  .stamp-animate { animation: stampIn 0.4s ease-out; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stamp-animate { animation: none; }
+  }
+
+  .footer-note {
+    text-align: center;
+    margin-top: 8px;
+    padding-bottom: 22px;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+
+  footer {
+    margin-top: 28px;
+    color: #6f6656;
+    font-size: 11px;
+    text-align: center;
+    max-width: 420px;
+  }
+  footer a { color: #b8ac95; }
+</style>
+</head>
+<body>
+
+  <div class="masthead">
+    <div class="eyebrow">Field-verified in Covington, KY</div>
+    <h1>The BS Detector</h1>
+    <p>
+      "Buy X, Get Y Free" doesn't mean a flat discount.
+      The register pays the top X prices in every group and frees the
+      cheapest Y &mdash; enter your cart to see the real math.
+    </p>
+  </div>
+
+  <div class="receipt-wrap">
+    <div class="jag-top"></div>
+    <div class="receipt">
+      <div class="receipt-title">
+        DEPT. STORE BS DETECTOR
+        <span class="sub">LC 2144, grown-up version</span>
+      </div>
+
+      <div class="field">
+        <label for="prices">ITEM PRICES (comma separated)</label>
+        <input id="prices" type="text" placeholder="500, 400, 300, 200, 100" />
+      </div>
+
+      <div class="xy-row">
+        <div class="field">
+          <label for="x">BUY (X)</label>
+          <input id="x" type="number" min="1" value="3" />
+        </div>
+        <div class="field">
+          <label for="y">GET FREE (Y)</label>
+          <input id="y" type="number" min="1" value="2" />
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button id="calc-btn">RING UP</button>
+        <button id="example-btn">TRY EXAMPLE</button>
+      </div>
+
+      <div id="error" class="error hidden"></div>
+
+      <div id="result-panel" class="hidden">
+        <div id="receipt-body"></div>
+        <div class="summary-block" id="summary"></div>
+      </div>
+    </div>
+    <div class="jag-bottom"></div>
+
+    <div class="stamp-zone">
+      <div id="stamp">BS GAP: &mdash;</div>
+    </div>
+  </div>
+
+  <footer>
+    Sort descending, group into chunks of X+Y, pay the top X.
+    Verified against brute-force optimal grouping across hundreds of
+    random test cases. No data leaves your browser.
+  </footer>
+
+<script>
+"use strict";
+// BS Detector — core calculation, verified via brute-force against
+// every possible grouping for hundreds of random cases (see the LinkedIn thread).
+//
+// Rule: pay for the X highest-priced items in a group, up to Y of the
+// lowest-priced items in that group become free. To maximize the discount
+// across a whole cart, sort descending and walk in consecutive chunks of
+// size (X + Y). A leftover chunk smaller than X+Y is paid in full.
+function calculateBsGap(prices, x, y) {
+    const k = x + y;
+    const sorted = [...prices].sort((a, b) => b - a);
+    const gross = prices.reduce((sum, p) => sum + p, 0);
+    const groups = [];
+    let actualTotal = 0;
+    for (let i = 0; i < sorted.length; i += k) {
+        const chunk = sorted.slice(i, i + k);
+        if (chunk.length === k) {
+            const paid = chunk.slice(0, x);
+            const free = chunk.slice(x);
+            actualTotal += paid.reduce((s, v) => s + v, 0);
+            groups.push({ items: chunk, paid, free, isFullGroup: true });
+        }
+        else {
+            actualTotal += chunk.reduce((s, v) => s + v, 0);
+            groups.push({ items: chunk, paid: chunk, free: [], isFullGroup: false });
+        }
+    }
+    const discount = gross - actualTotal;
+    const realDiscountPct = gross > 0 ? (discount / gross) * 100 : 0;
+    const advertisedDiscountPct = (y / (x + y)) * 100;
+    const bsGapPct = advertisedDiscountPct - realDiscountPct;
+    return {
+        gross,
+        actualTotal,
+        realDiscountPct,
+        advertisedDiscountPct,
+        bsGapPct,
+        groups,
+    };
+}
+function parsePrices(raw) {
+    return raw
+        .split(",")
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0)
+        .map((s) => parseFloat(s))
+        .filter((n) => !Number.isNaN(n) && n > 0);
+}
+function money(n) {
+    return `$${n.toFixed(2)}`;
+}
+function pct(n) {
+    return `${n.toFixed(2)}%`;
+}
+function render(result) {
+    const receipt = document.getElementById("receipt-body");
+    const stamp = document.getElementById("stamp");
+    const summary = document.getElementById("summary");
+    let lines = "";
+    result.groups.forEach((g, idx) => {
+        lines += `<div class="group-label">GROUP ${idx + 1}${g.isFullGroup ? "" : " (leftover — no discount)"}</div>`;
+        g.paid.forEach((p) => {
+            lines += `<div class="line"><span>ITEM</span><span>${money(p)}</span></div>`;
+        });
+        g.free.forEach((f) => {
+            lines += `<div class="line free"><span>ITEM (FREE)</span><span>&minus;${money(f)}</span></div>`;
+        });
+    });
+    receipt.innerHTML = lines;
+    summary.innerHTML = `
+    <div class="sumline"><span>GROSS TOTAL</span><span>${money(result.gross)}</span></div>
+    <div class="sumline"><span>YOU ACTUALLY PAY</span><span>${money(result.actualTotal)}</span></div>
+    <div class="sumline dim"><span>ADVERTISED DISCOUNT</span><span>${pct(result.advertisedDiscountPct)}</span></div>
+    <div class="sumline dim"><span>REAL DISCOUNT</span><span>${pct(result.realDiscountPct)}</span></div>
+  `;
+    stamp.textContent = `BS GAP: ${pct(result.bsGapPct)}`;
+    stamp.classList.remove("stamp-animate");
+    void stamp.offsetWidth;
+    stamp.classList.add("stamp-animate");
+    document.getElementById("result-panel").classList.remove("hidden");
+}
+function showError(msg) {
+    const err = document.getElementById("error");
+    err.textContent = msg;
+    err.classList.remove("hidden");
+    document.getElementById("result-panel").classList.add("hidden");
+}
+function clearError() {
+    document.getElementById("error").classList.add("hidden");
+}
+function handleCalculate() {
+    clearError();
+    const pricesRaw = document.getElementById("prices").value;
+    const xRaw = document.getElementById("x").value;
+    const yRaw = document.getElementById("y").value;
+    const prices = parsePrices(pricesRaw);
+    const x = parseInt(xRaw, 10);
+    const y = parseInt(yRaw, 10);
+    if (prices.length === 0) {
+        showError("Enter at least one item price, e.g. 500, 400, 300, 200, 100");
+        return;
+    }
+    if (!Number.isInteger(x) || x <= 0 || !Number.isInteger(y) || y <= 0) {
+        showError("X and Y must be positive whole numbers.");
+        return;
+    }
+    if (x + y > prices.length) {
+        showError(`X + Y (${x + y}) is larger than your item count (${prices.length}) — no full group is possible.`);
+        return;
+    }
+    const result = calculateBsGap(prices, x, y);
+    render(result);
+}
+function loadExample() {
+    document.getElementById("prices").value =
+        "88, 45, 62, 21, 97, 33, 76, 54, 19, 40, 65, 28";
+    document.getElementById("x").value = "3";
+    document.getElementById("y").value = "2";
+    handleCalculate();
+}
+window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("calc-btn").addEventListener("click", handleCalculate);
+    document.getElementById("example-btn").addEventListener("click", loadExample);
+});
+</script>
+</body>
+</html>
