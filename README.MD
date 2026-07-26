@@ -2,7 +2,7 @@
 
 An interactive web application and algorithm that exposes the real-world math behind retail **"Buy X, Get Y Free"** promotions. 
 
-##The live demo is available [here](https://mradityagoyal.github.io/StoreDiscountCalculator/).
+## The live demo is available [here](https://mradityagoyal.github.io/StoreDiscountCalculator/).
 
 While store signage advertises sweeping headline discounts (e.g., "Buy 3 Get 2 Free" sound like 40% off), real-world cart math often yields a much lower actual discount depending on item price distribution. This tool calculates the **BS Gap**—the discrepancy between what retailers advertise and what consumers actually save.
 
