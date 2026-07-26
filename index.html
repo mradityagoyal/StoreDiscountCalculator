@@ -1,107 +1,89 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The BS Detector — Buy X Get Y Free, Actually Calculated</title>
+<title>The BS Detector — Department Store Math Exposed</title>
 <style>
   :root {
-    --paper: #f5f0e6;
-    --paper-shadow: #e8e0cf;
-    --ink: #2b2622;
-    --ink-faint: #8a8175;
-    --stamp-red: #a3302a;
-    --rule: #cfc6b3;
-    --free-green: #3f6e4f;
+    --bg-main: #0f172a;
+    --card-bg: #1e293b;
+    --border-color: #334155;
+    --accent-color: #38bdf8;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --paid-color: #22c55e;
+    --paid-bg: rgba(34, 197, 94, 0.15);
+    --free-color: #eab308;
+    --free-bg: rgba(234, 179, 8, 0.15);
+    --danger-color: #f43f5e;
+    --danger-bg: rgba(244, 63, 94, 0.15);
   }
 
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    margin: 0;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     min-height: 100vh;
-    background: #1c1a17;
-    background-image:
-      radial-gradient(ellipse at top, #262320 0%, #1c1a17 60%);
-    font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, monospace;
-    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 16px 64px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 720px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 48px 16px 96px;
+    gap: 20px;
   }
 
-  .masthead {
+  header {
     text-align: center;
-    margin-bottom: 32px;
-    max-width: 560px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
   }
 
-  .masthead .eyebrow {
-    font-family: Georgia, "Times New Roman", serif;
-    font-style: italic;
-    color: #b8ac95;
-    letter-spacing: 0.08em;
-    font-size: 13px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-
-  .masthead h1 {
-    font-family: Georgia, "Times New Roman", serif;
+  header .eyebrow {
+    color: var(--accent-color);
+    font-size: 0.8rem;
     font-weight: 700;
-    color: #f2ece0;
-    font-size: clamp(28px, 5vw, 40px);
-    line-height: 1.15;
-    margin: 0 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
   }
 
-  .masthead p {
-    color: #a89d87;
-    font-size: 14px;
-    line-height: 1.6;
-    margin: 0;
+  header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
   }
 
-  .receipt-wrap {
-    width: 100%;
-    max-width: 420px;
-    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+  header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-top: 6px;
+    line-height: 1.5;
   }
 
-  .receipt {
-    background: var(--paper);
-    position: relative;
-    padding: 28px 26px 8px;
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
   }
 
-  .jag-top, .jag-bottom {
-    height: 12px;
-    background:
-      linear-gradient(135deg, var(--paper) 50%, transparent 50%) 0 0,
-      linear-gradient(-135deg, var(--paper) 50%, transparent 50%) 0 0;
-    background-size: 16px 16px;
-    background-repeat: repeat-x;
-  }
-  .jag-bottom { transform: rotate(180deg); }
-
-  .receipt-title {
-    text-align: center;
-    font-weight: bold;
-    letter-spacing: 0.12em;
-    font-size: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px dashed var(--rule);
-    margin-bottom: 14px;
-  }
-
-  .receipt-title .sub {
-    display: block;
-    font-weight: normal;
-    font-size: 11px;
-    color: var(--ink-faint);
+  .card-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-top: 4px;
+    margin-bottom: 14px;
   }
 
   .field {
@@ -110,301 +92,358 @@
 
   .field label {
     display: block;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: var(--ink-faint);
-    margin-bottom: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
   }
 
   .field input {
     width: 100%;
-    background: #fffdf9;
-    border: 1px solid var(--rule);
-    padding: 8px 10px;
-    font-family: inherit;
-    font-size: 14px;
-    color: var(--ink);
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    outline: none;
   }
 
-  .field input:focus-visible {
-    outline: 2px solid var(--stamp-red);
-    outline-offset: 1px;
+  .field input:focus {
+    border-color: var(--accent-color);
   }
 
   .xy-row {
     display: flex;
-    gap: 12px;
+    gap: 16px;
   }
   .xy-row .field { flex: 1; }
 
   .btn-row {
     display: flex;
-    gap: 8px;
-    margin: 18px 0 20px;
+    gap: 12px;
+    margin-top: 8px;
   }
 
   button {
     font-family: inherit;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    padding: 10px 14px;
-    border: 1px solid var(--ink);
-    background: var(--ink);
-    color: var(--paper);
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
     cursor: pointer;
+    transition: opacity 0.2s;
   }
-  button:hover { background: #46403a; }
-  button:focus-visible { outline: 2px solid var(--stamp-red); outline-offset: 2px; }
+
+  #calc-btn {
+    background: var(--accent-color);
+    color: #0284c7;
+    flex: 2;
+  }
 
   #example-btn {
     background: transparent;
-    color: var(--ink);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    flex: 1;
   }
-  #example-btn:hover { background: rgba(0,0,0,0.05); }
+
+  button:hover { opacity: 0.9; }
 
   .error {
-    font-size: 12px;
-    color: var(--stamp-red);
-    border: 1px dashed var(--stamp-red);
-    padding: 8px 10px;
-    margin-bottom: 16px;
+    background: var(--danger-bg);
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-radius: 8px;
   }
+
   .hidden { display: none !important; }
 
-  #receipt-body { margin-bottom: 6px; }
-
-  .group-label {
-    font-size: 11px;
-    color: var(--ink-faint);
-    letter-spacing: 0.06em;
-    margin: 12px 0 4px;
-  }
-
-  .line, .sumline {
+  /* BS Gap Banner & Stat Cards */
+  .bs-banner {
+    background: var(--danger-bg);
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-weight: 700;
+    font-size: 1.1rem;
     display: flex;
     justify-content: space-between;
-    font-size: 13px;
-    padding: 2px 0;
+    align-items: center;
+    margin-bottom: 16px;
   }
 
-  .line.free { color: var(--free-green); }
-
-  .summary-block {
-    border-top: 1px dashed var(--rule);
-    margin-top: 10px;
-    padding-top: 10px;
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
   }
 
-  .sumline.dim { color: var(--ink-faint); font-size: 12px; }
-
-  .stamp-zone {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    padding: 22px 0 26px;
+  .stat-card {
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
   }
 
-  #stamp {
-    font-family: Georgia, "Times New Roman", serif;
-    font-weight: 900;
-    font-style: italic;
-    font-size: 22px;
-    letter-spacing: 0.03em;
-    color: var(--stamp-red);
-    border: 3px solid var(--stamp-red);
-    padding: 6px 16px;
-    border-radius: 4px;
-    transform: rotate(-6deg);
-    opacity: 0.9;
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .stat-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-top: 6px;
+  }
+
+  /* Receipt Breakdown Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+  }
+
+  th {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 500;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
   }
 
-  @keyframes stampIn {
-    0%   { transform: rotate(-6deg) scale(2.4); opacity: 0; }
-    60%  { transform: rotate(-6deg) scale(0.92); opacity: 1; }
-    100% { transform: rotate(-6deg) scale(1); opacity: 0.9; }
-  }
-  .stamp-animate { animation: stampIn 0.4s ease-out; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .stamp-animate { animation: none; }
+  .badge-paid {
+    background: var(--paid-bg);
+    color: var(--paid-color);
   }
 
-  .footer-note {
-    text-align: center;
-    margin-top: 8px;
-    padding-bottom: 22px;
-    font-size: 10px;
-    color: var(--ink-faint);
-    letter-spacing: 0.04em;
+  .badge-free {
+    background: var(--free-bg);
+    color: var(--free-color);
   }
 
   footer {
-    margin-top: 28px;
-    color: #6f6656;
-    font-size: 11px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
     text-align: center;
-    max-width: 420px;
+    line-height: 1.5;
   }
-  footer a { color: #b8ac95; }
 </style>
 </head>
 <body>
 
-  <div class="masthead">
+<div class="container">
+  <header>
     <div class="eyebrow">Field-verified in Covington, KY</div>
     <h1>The BS Detector</h1>
-    <p>
-      "Buy X, Get Y Free" doesn't mean a flat discount.
-      The register pays the top X prices in every group and frees the
-      cheapest Y &mdash; enter your cart to see the real math.
-    </p>
+    <p>Exposing the real math behind "Buy X Get Y Free" promotions.</p>
+  </header>
+
+  <div class="card">
+    <div class="card-title">Configuration & Input</div>
+    
+    <div class="field">
+      <label for="prices">Item Prices (comma separated)</label>
+      <input id="prices" type="text" placeholder="500, 400, 300, 200, 100" />
+    </div>
+
+    <div class="xy-row">
+      <div class="field">
+        <label for="x">Buy (X)</label>
+        <input id="x" type="number" min="1" value="3" />
+      </div>
+      <div class="field">
+        <label for="y">Get Free (Y)</label>
+        <input id="y" type="number" min="1" value="2" />
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button id="calc-btn">RING UP</button>
+      <button id="example-btn">TRY EXAMPLE</button>
+    </div>
   </div>
 
-  <div class="receipt-wrap">
-    <div class="jag-top"></div>
-    <div class="receipt">
-      <div class="receipt-title">
-        DEPT. STORE BS DETECTOR
-        <span class="sub">LC 2144, grown-up version</span>
+  <div id="error" class="error hidden"></div>
+
+  <!-- ANALYSIS & METRICS -->
+  <div id="result-panel" class="card hidden">
+    <div class="card-title">Analysis & Reality Check</div>
+    
+    <div class="bs-banner">
+      <span>🚨 BS Gap Detected:</span>
+      <span id="bsGapValue">0.00%</span>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Out of Pocket</div>
+        <div class="stat-value" id="actualTotal">$0.00</div>
       </div>
-
-      <div class="field">
-        <label for="prices">ITEM PRICES (comma separated)</label>
-        <input id="prices" type="text" placeholder="500, 400, 300, 200, 100" />
+      <div class="stat-card">
+        <div class="stat-label">Real Discount</div>
+        <div class="stat-value" id="realDiscount" style="color: var(--paid-color);">0.00%</div>
       </div>
-
-      <div class="xy-row">
-        <div class="field">
-          <label for="x">BUY (X)</label>
-          <input id="x" type="number" min="1" value="3" />
-        </div>
-        <div class="field">
-          <label for="y">GET FREE (Y)</label>
-          <input id="y" type="number" min="1" value="2" />
-        </div>
-      </div>
-
-      <div class="btn-row">
-        <button id="calc-btn">RING UP</button>
-        <button id="example-btn">TRY EXAMPLE</button>
-      </div>
-
-      <div id="error" class="error hidden"></div>
-
-      <div id="result-panel" class="hidden">
-        <div id="receipt-body"></div>
-        <div class="summary-block" id="summary"></div>
+      <div class="stat-card">
+        <div class="stat-label">Advertised</div>
+        <div class="stat-value" id="advertisedDiscount" style="color: var(--text-secondary);">0.00%</div>
       </div>
     </div>
-    <div class="jag-bottom"></div>
+  </div>
 
-    <div class="stamp-zone">
-      <div id="stamp">BS GAP: &mdash;</div>
-    </div>
+  <!-- ITEM BREAKDOWN TABLE -->
+  <div id="breakdown-panel" class="card hidden">
+    <div class="card-title">Optimal POS Receipt Breakdown</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Item #</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Group</th>
+        </tr>
+      </thead>
+      <tbody id="receiptBody"></tbody>
+    </table>
   </div>
 
   <footer>
-    Sort descending, group into chunks of X+Y, pay the top X.
-    Verified against brute-force optimal grouping across hundreds of
-    random test cases. No data leaves your browser.
+    Greedy Partitioning: Sort descending, group into chunks of X+Y, pay the top X. No data leaves your browser.
   </footer>
+</div>
 
 <script>
 "use strict";
-// BS Detector — core calculation, verified via brute-force against
-// every possible grouping for hundreds of random cases (see the LinkedIn thread).
-//
-// Rule: pay for the X highest-priced items in a group, up to Y of the
-// lowest-priced items in that group become free. To maximize the discount
-// across a whole cart, sort descending and walk in consecutive chunks of
-// size (X + Y). A leftover chunk smaller than X+Y is paid in full.
-function calculateBsGap(prices, x, y) {
+
+function parsePrices(raw) {
+    return raw
+        .split(",")
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0)
+        .map((s, index) => ({ id: index + 1, price: parseFloat(s) }))
+        .filter((item) => !Number.isNaN(item.price) && item.price > 0);
+}
+
+function calculateBsGap(items, x, y) {
     const k = x + y;
-    const sorted = [...prices].sort((a, b) => b - a);
-    const gross = prices.reduce((sum, p) => sum + p, 0);
-    const groups = [];
+    // Sort descending by price, but retain original item id
+    const sorted = [...items].sort((a, b) => b.price - a.price);
+    const gross = items.reduce((sum, item) => sum + item.price, 0);
+    
     let actualTotal = 0;
-    for (let i = 0; i < sorted.length; i += k) {
-        const chunk = sorted.slice(i, i + k);
-        const paidCount = Math.min(chunk.length, x);
-        const paid = chunk.slice(0, paidCount);
-        const free = chunk.slice(paidCount);
-        actualTotal += paid.reduce((s, v) => s + v, 0);
-        groups.push({ items: chunk, paid, free, isFullGroup: chunk.length === k });
+    const processedItems = [];
+
+    for (let i = 0; i < sorted.length; i++) {
+        const item = sorted[i];
+        const groupIndex = Math.floor(i / k) + 1;
+        const indexInGroup = i % k;
+
+        const isFree = indexInGroup >= x;
+        if (!isFree) {
+            actualTotal += item.price;
+        }
+
+        processedItems.push({
+            id: item.id,
+            price: item.price,
+            status: isFree ? 'FREE' : 'PAID',
+            group: groupIndex
+        });
     }
+
     const discount = gross - actualTotal;
     const realDiscountPct = gross > 0 ? (discount / gross) * 100 : 0;
     const advertisedDiscountPct = (y / (x + y)) * 100;
-    const bsGapPct = advertisedDiscountPct - realDiscountPct;
+    const bsGapPct = Math.max(0, advertisedDiscountPct - realDiscountPct);
+
     return {
         gross,
         actualTotal,
         realDiscountPct,
         advertisedDiscountPct,
         bsGapPct,
-        groups,
+        processedItems
     };
 }
-function parsePrices(raw) {
-    return raw
-        .split(",")
-        .map((s) => s.trim())
-        .filter((s) => s.length > 0)
-        .map((s) => parseFloat(s))
-        .filter((n) => !Number.isNaN(n) && n > 0);
-}
-function money(n) {
-    return `$${n.toFixed(2)}`;
-}
-function pct(n) {
-    return `${n.toFixed(2)}%`;
-}
+
+function money(n) { return `$${n.toFixed(2)}`; }
+function pct(n) { return `${n.toFixed(2)}%`; }
+
 function render(result) {
-    const receipt = document.getElementById("receipt-body");
-    const stamp = document.getElementById("stamp");
-    const summary = document.getElementById("summary");
-    let lines = "";
-    result.groups.forEach((g, idx) => {
-        lines += `<div class="group-label">GROUP ${idx + 1}${g.isFullGroup ? "" : ` (leftover, size ${g.items.length})`}</div>`;
-        g.paid.forEach((p) => {
-            lines += `<div class="line"><span>ITEM</span><span>${money(p)}</span></div>`;
-        });
-        g.free.forEach((f) => {
-            lines += `<div class="line free"><span>ITEM (FREE)</span><span>&minus;${money(f)}</span></div>`;
-        });
-    });
-    receipt.innerHTML = lines;
-    summary.innerHTML = `
-    <div class="sumline"><span>GROSS TOTAL</span><span>${money(result.gross)}</span></div>
-    <div class="sumline"><span>YOU ACTUALLY PAY</span><span>${money(result.actualTotal)}</span></div>
-    <div class="sumline dim"><span>ADVERTISED DISCOUNT</span><span>${pct(result.advertisedDiscountPct)}</span></div>
-    <div class="sumline dim"><span>REAL DISCOUNT</span><span>${pct(result.realDiscountPct)}</span></div>
-  `;
-    stamp.textContent = `BS GAP: ${pct(result.bsGapPct)}`;
-    stamp.classList.remove("stamp-animate");
-    void stamp.offsetWidth;
-    stamp.classList.add("stamp-animate");
+    document.getElementById("actualTotal").textContent = money(result.actualTotal);
+    document.getElementById("realDiscount").textContent = pct(result.realDiscountPct);
+    document.getElementById("advertisedDiscount").textContent = pct(result.advertisedDiscountPct);
+    document.getElementById("bsGapValue").textContent = pct(result.bsGapPct);
+
+    const tbody = document.getElementById("receiptBody");
+    tbody.innerHTML = result.processedItems.map(item => `
+        <tr>
+            <td><strong>Item #${item.id}</strong></td>
+            <td>${money(item.price)}</td>
+            <td>
+                <span class="badge ${item.status === 'PAID' ? 'badge-paid' : 'badge-free'}">
+                    ${item.status}
+                </span>
+            </td>
+            <td style="color: var(--text-secondary);">Group ${item.group}</td>
+        </tr>
+    `).join('');
+
     document.getElementById("result-panel").classList.remove("hidden");
+    document.getElementById("breakdown-panel").classList.remove("hidden");
 }
+
 function showError(msg) {
     const err = document.getElementById("error");
     err.textContent = msg;
     err.classList.remove("hidden");
     document.getElementById("result-panel").classList.add("hidden");
+    document.getElementById("breakdown-panel").classList.add("hidden");
 }
+
 function clearError() {
     document.getElementById("error").classList.add("hidden");
 }
+
 function handleCalculate() {
     clearError();
     const pricesRaw = document.getElementById("prices").value;
     const xRaw = document.getElementById("x").value;
     const yRaw = document.getElementById("y").value;
-    const prices = parsePrices(pricesRaw);
+    
+    const items = parsePrices(pricesRaw);
     const x = parseInt(xRaw, 10);
     const y = parseInt(yRaw, 10);
-    if (prices.length === 0) {
+
+    if (items.length === 0) {
         showError("Enter at least one item price, e.g. 500, 400, 300, 200, 100");
         return;
     }
@@ -412,23 +451,31 @@ function handleCalculate() {
         showError("X and Y must be positive whole numbers.");
         return;
     }
-    if (x + y > prices.length) {
-        showError(`X + Y (${x + y}) is larger than your item count (${prices.length}) — no full group is possible.`);
-        return;
-    }
-    const result = calculateBsGap(prices, x, y);
+
+    const result = calculateBsGap(items, x, y);
     render(result);
 }
+
 function loadExample() {
-    document.getElementById("prices").value =
-        "88, 45, 62, 21, 97, 33, 76, 54, 19, 40, 65, 28";
+    document.getElementById("prices").value = "88, 45, 62, 21, 97, 33, 76, 54, 19, 40, 65, 28";
     document.getElementById("x").value = "3";
     document.getElementById("y").value = "2";
     handleCalculate();
 }
+
 window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("calc-btn").addEventListener("click", handleCalculate);
     document.getElementById("example-btn").addEventListener("click", loadExample);
+
+    // Attach Enter Key Handler to all Input Fields
+    ['prices', 'x', 'y'].forEach(id => {
+        document.getElementById(id).addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                handleCalculate();
+            }
+        });
+    });
 });
 </script>
 </body>
