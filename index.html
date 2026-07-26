@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The BS Detector — Department Store Math Exposed</title>
   <link rel="stylesheet" href="styles.css" />
-  <script src="app.js" defer></script>
 </head>
 <body>
 
@@ -21,7 +20,12 @@
     
     <div class="field">
       <label for="prices">Item Prices (comma separated)</label>
-      <input id="prices" type="text" placeholder="500, 400, 300, 200, 100" />
+      <input 
+        id="prices" 
+        type="text" 
+        value="88, 45, 62, 21, 97, 33, 76, 54, 19, 40, 65, 28" 
+        placeholder="500, 400, 300, 200, 100" 
+      />
     </div>
 
     <div class="xy-row">
@@ -58,6 +62,10 @@
         <div class="stat-value" id="actualTotal">$0.00</div>
       </div>
       <div class="stat-card">
+        <div class="stat-label">Total Saved</div>
+        <div class="stat-value" id="totalDiscount" style="color: var(--paid-color);">$0.00</div>
+      </div>
+      <div class="stat-card">
         <div class="stat-label">Real Discount</div>
         <div class="stat-value" id="realDiscount" style="color: var(--paid-color);">0.00%</div>
       </div>
@@ -89,5 +97,6 @@
   </footer>
 </div>
 
+<script src="app.js"></script>
 </body>
 </html>

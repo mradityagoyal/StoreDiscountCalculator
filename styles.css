@@ -32,7 +32,7 @@ body {
 
 .container {
   width: 100%;
-  max-width: 720px;
+  max-width: 760px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -116,10 +116,7 @@ header p {
   display: flex;
   gap: 16px;
 }
-
-.xy-row .field { 
-  flex: 1; 
-}
+.xy-row .field { flex: 1; }
 
 .btn-row {
   display: flex;
@@ -151,9 +148,7 @@ button {
   flex: 1;
 }
 
-button:hover { 
-  opacity: 0.9; 
-}
+button:hover { opacity: 0.9; }
 
 .error {
   background: var(--danger-bg);
@@ -165,9 +160,7 @@ button:hover {
   border-radius: 8px;
 }
 
-.hidden { 
-  display: none !important; 
-}
+.hidden { display: none !important; }
 
 /* BS Gap Banner & Stat Cards */
 .bs-banner {
@@ -186,8 +179,14 @@ button:hover {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .stat-card {
@@ -199,14 +198,14 @@ button:hover {
 }
 
 .stat-label {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-secondary);
   text-transform: uppercase;
   font-weight: 600;
 }
 
 .stat-value {
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 800;
   margin-top: 6px;
 }
