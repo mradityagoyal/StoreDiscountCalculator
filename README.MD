@@ -5,7 +5,7 @@ An interactive web application and algorithm that exposes the real-world math be
 While store signage advertises sweeping headline discounts (e.g., "Buy 3 Get 2 Free" sound like 40% off), real-world cart math often yields a much lower actual discount depending on item price distribution. This tool calculates the **BS Gap**—the discrepancy between what retailers advertise and what consumers actually save.
 
 > 📖 **Read the accompanying breakdown on LinkedIn:**  
-> 👉 [Insert Your LinkedIn Post URL Here](https://linkedin.com)
+> 👉 [Department store BS detector.](https://www.linkedin.com/posts/mradityagoyal_buy2get1free-leetcode-retailmath-activity-7486822721608142848-hDjX)
 
 ---
 
